@@ -25,7 +25,7 @@ public class ModelAndView implements Viewable {
         }
     }
 
-    public ModelAndView with(String key, String value) {
+    public ModelAndView with(String key, Object value) {
         model.put(key, value);
         return this;
     }
