@@ -1,9 +1,12 @@
 package de.chkal.rsmvc.core.provider;
 
-import de.chkal.rsmvc.core.servlet.DelegatingRequestWrapper;
+import de.chkal.rsmvc.core.annotation.View;
 import de.chkal.rsmvc.core.Viewable;
+import de.chkal.rsmvc.core.servlet.DelegatingRequestWrapper;
 import de.chkal.rsmvc.core.servlet.DelegatingResponseWrapper;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 @Provider
 public class ViewableMessageBodyWriter implements MessageBodyWriter<Viewable> {
@@ -41,13 +45,48 @@ public class ViewableMessageBodyWriter implements MessageBodyWriter<Viewable> {
                         MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
             throws IOException, WebApplicationException {
 
-
         // Undertow verifies that request/response are wrappers
         DelegatingRequestWrapper requestWrapper = new DelegatingRequestWrapper(request);
         DelegatingResponseWrapper responseWrapper = new DelegatingResponseWrapper(response);
 
-        viewable.render(requestWrapper, responseWrapper);
+        String effectiveViewName = getEffectiveViewName(viewable, annotations);
+        render(requestWrapper, responseWrapper, effectiveViewName, viewable.getModel());
 
+    }
+
+    private String getEffectiveViewName(Viewable viewable, Annotation[] annotations) {
+
+        // prefer the view specified in the Viewable itself
+        if (viewable.getViewName() != null && !viewable.getViewName().trim().isEmpty()) {
+            return viewable.getViewName().trim();
+        }
+
+        // fallback to the method
+        for (Annotation a : annotations) {
+            if (a instanceof View) {
+                return ((View) a).value().trim();
+            }
+        }
+
+        throw new IllegalStateException("Cannot determine view name!");
+
+    }
+
+    private void render(HttpServletRequest request, HttpServletResponse response, String viewName,
+                        Map<String, Object> model) throws IOException {
+
+        try {
+
+            for (Map.Entry<String, Object> entry : model.entrySet()) {
+                request.setAttribute(entry.getKey(), entry.getValue());
+            }
+
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(viewName);
+            dispatcher.forward(request, response);
+
+        } catch (ServletException e) {
+            throw new IOException(e);
+        }
     }
 
 }
