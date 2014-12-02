@@ -39,6 +39,7 @@
                     <groupId>org.jboss.spec</groupId>
                     <artifactId>jboss-javaee-web-7.0</artifactId>
                     <version>1.0.1.Final</version>
+                    <type>pom</type>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
