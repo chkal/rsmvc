@@ -20,18 +20,46 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-web-7.0</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>de.chkal.rsmvc</groupId>
             <artifactId>rsmvc-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
     </dependencies>
+
+    <profiles>
+
+        <profile>
+            <id>jee7</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.spec</groupId>
+                    <artifactId>jboss-javaee-web-7.0</artifactId>
+                    <version>1.0.1.Final</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>jersey</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet</artifactId>
+                    <version>2.13</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                    <version>1.2</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+    </profiles>
 
 </project>
