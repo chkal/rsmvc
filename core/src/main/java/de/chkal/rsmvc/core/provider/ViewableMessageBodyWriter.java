@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -30,6 +31,9 @@ public class ViewableMessageBodyWriter implements MessageBodyWriter<Viewable> {
     @Context
     private HttpServletResponse response;
 
+    @Context
+    private ResourceInfo resourceInfo;
+
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return Viewable.class.isAssignableFrom(type);
@@ -49,12 +53,12 @@ public class ViewableMessageBodyWriter implements MessageBodyWriter<Viewable> {
         DelegatingRequestWrapper requestWrapper = new DelegatingRequestWrapper(request);
         DelegatingResponseWrapper responseWrapper = new DelegatingResponseWrapper(response);
 
-        String effectiveViewName = getEffectiveViewName(viewable, annotations);
+        String effectiveViewName = getEffectiveViewName(viewable);
         render(requestWrapper, responseWrapper, effectiveViewName, viewable.getModel());
 
     }
 
-    private String getEffectiveViewName(Viewable viewable, Annotation[] annotations) {
+    private String getEffectiveViewName(Viewable viewable) {
 
         // prefer the view specified in the Viewable itself
         if (viewable.getViewName() != null && !viewable.getViewName().trim().isEmpty()) {
@@ -62,7 +66,14 @@ public class ViewableMessageBodyWriter implements MessageBodyWriter<Viewable> {
         }
 
         // fallback to the method
-        for (Annotation a : annotations) {
+        for (Annotation a : resourceInfo.getResourceMethod().getAnnotations()) {
+            if (a instanceof View) {
+                return ((View) a).value().trim();
+            }
+        }
+
+        // fallback to the class
+        for (Annotation a : resourceInfo.getResourceClass().getAnnotations()) {
             if (a instanceof View) {
                 return ((View) a).value().trim();
             }
