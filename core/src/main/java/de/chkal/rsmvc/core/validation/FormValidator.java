@@ -27,4 +27,8 @@ public class FormValidator {
         return new ValidationResult(violations);
     }
 
+    public ValidationAction onError(Object form) {
+        return validate(form).onError();
+    }
+
 }

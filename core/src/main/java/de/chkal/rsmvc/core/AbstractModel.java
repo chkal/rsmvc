@@ -20,6 +20,11 @@ public abstract class AbstractModel<T extends AbstractModel<T>> implements Viewa
         return (T) this;
     }
 
+    public T with(AbstractModel m) {
+        model.putAll(m.model);
+        return (T) this;
+    }
+
     @Override
     public String getViewName() {
         return null;

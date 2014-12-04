@@ -16,7 +16,7 @@ import javax.ws.rs.Path;
 public class ValidationController {
 
     @Inject
-    private FormValidator formValidator;
+    private FormValidator validator;
 
     @GET
     public Viewable get() {
@@ -26,10 +26,11 @@ public class ValidationController {
     @POST
     public Viewable post(@BeanParam ValidationForm form) {
 
-        formValidator.validate(form).onErrorRender();
+        validator.onError(form)
+                .with("form", form)
+                .render();
 
         return new Model()
-                .with("form", form)
                 .with("msg", "Hello " + form.getName());
 
     }
