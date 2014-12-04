@@ -3,21 +3,20 @@ package de.chkal.rsmvc.demo.validation;
 import de.chkal.rsmvc.core.Model;
 import de.chkal.rsmvc.core.Viewable;
 import de.chkal.rsmvc.core.annotation.View;
-import de.chkal.rsmvc.demo.DemoApplication;
+import de.chkal.rsmvc.core.validation.FormValidator;
 
+import javax.inject.Inject;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
 
 @Path("/validation")
 @View("/validation.jsp")
 public class ValidationController {
 
-    @Context
-    private Application application;
+    @Inject
+    private FormValidator formValidator;
 
     @GET
     public Viewable get() {
@@ -26,6 +25,8 @@ public class ValidationController {
 
     @POST
     public Viewable post(@BeanParam ValidationForm form) {
+
+        formValidator.validate(form).onErrorRender();
 
         return new Model()
                 .with("form", form)
