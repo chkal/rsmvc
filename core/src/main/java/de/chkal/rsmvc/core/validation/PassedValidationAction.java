@@ -1,6 +1,6 @@
 package de.chkal.rsmvc.core.validation;
 
-import de.chkal.rsmvc.core.AbstractModel;
+import de.chkal.rsmvc.core.ReadableModel;
 
 public class PassedValidationAction implements ValidationAction {
 
@@ -15,7 +15,7 @@ public class PassedValidationAction implements ValidationAction {
     }
 
     @Override
-    public ValidationAction with(AbstractModel model) {
+    public ValidationAction with(ReadableModel model) {
         return this;
     }
 

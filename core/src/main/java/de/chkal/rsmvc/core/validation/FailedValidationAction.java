@@ -1,22 +1,17 @@
 package de.chkal.rsmvc.core.validation;
 
-import de.chkal.rsmvc.core.AbstractModel;
-import de.chkal.rsmvc.core.InstantRenderingException;
-import de.chkal.rsmvc.core.Model;
-import de.chkal.rsmvc.core.ModelAndView;
+import de.chkal.rsmvc.core.*;
 
 public class FailedValidationAction implements ValidationAction {
 
-    private final AbstractModel model = new Model();
-    private final ValidationResult result;
+    private final BasicModel model = new Model();
 
     protected FailedValidationAction(ValidationResult result) {
-        this.result = result;
         this.model.with("errors", result.getViolations());
     }
 
     @Override
-    public ValidationAction with(AbstractModel m) {
+    public ValidationAction with(ReadableModel m) {
         model.with(m);
         return this;
     }

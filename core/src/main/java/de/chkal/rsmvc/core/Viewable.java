@@ -1,11 +1,7 @@
 package de.chkal.rsmvc.core;
 
-import java.util.Map;
-
-public interface Viewable {
+public interface Viewable extends ReadableModel {
 
     String getViewName();
-
-    Map<String, Object> getModel();
 
 }

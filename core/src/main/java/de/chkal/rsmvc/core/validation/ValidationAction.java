@@ -1,15 +1,11 @@
 package de.chkal.rsmvc.core.validation;
 
-import de.chkal.rsmvc.core.AbstractModel;
+import de.chkal.rsmvc.core.WritableModel;
 
-public interface ValidationAction {
+public interface ValidationAction extends WritableModel<ValidationAction> {
 
     void render();
 
     void render(String view);
-
-    ValidationAction with(AbstractModel model);
-
-    ValidationAction with(String key, Object value);
 
 }

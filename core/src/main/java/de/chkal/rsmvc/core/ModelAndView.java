@@ -2,7 +2,7 @@ package de.chkal.rsmvc.core;
 
 import java.util.Map;
 
-public class ModelAndView extends AbstractModel<ModelAndView> {
+public class ModelAndView extends BasicModel<ModelAndView> {
 
     private final String viewName;
 
