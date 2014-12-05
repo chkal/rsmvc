@@ -63,7 +63,8 @@ public class HelloWorldController {
 
 The JSP may look like this:
 
-```xml
+```jsp
+<!DOCTYPE html>
 <html>
     <head>
         <title>RSMVC demo</title>
@@ -96,7 +97,8 @@ public class HelloController {
 
 You can access the model values in your JSP using EL expressions:
 
-```xml
+```jsp
+<!DOCTYPE html>
 <html>
     <head>
         <title>RSMVC Demo</title>
@@ -137,7 +139,8 @@ a separate class for your form data and annotate the fields with `@FormParam`.
 
 Take this JSP file containing a form as an example:
 
-```xml
+```jsp
+<!DOCTYPE html>
 <html>
     <head>
         <title>Test</title>
@@ -256,7 +259,7 @@ and the view declared via `@View` will be rendered. The corresponding `Constrain
 will be stored in the model using the key `errors`. So you can render the validation
 errors in the JSP page like this:
 
-```xml
+```jsp
 <c:if test="${ not empty errors }">
     <ul>
         <c:forEach var="error" items="${errors}">
