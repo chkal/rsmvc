@@ -1,4 +1,4 @@
-# RSMVC
+# RSMVC [![Build Status](https://travis-ci.org/chkal/rsmvc.svg?branch=master)](https://travis-ci.org/chkal/rsmvc)
 
 RSMVC is a prototype of a MVC web framework based on JAX-RS. It is inspired by by
 [Jersey MVC](https://jersey.java.net/documentation/latest/mvc.html),
