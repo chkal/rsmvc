@@ -4,7 +4,7 @@ import de.chkal.rsmvc.core.*;
 
 public class FailedValidationAction implements ValidationAction {
 
-    private final BasicModel model = new Model();
+    private final Model model = new Model();
 
     protected FailedValidationAction(ValidationResult result) {
         this.model.with("errors", result.getViolations());

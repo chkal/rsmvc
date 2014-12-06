@@ -1,7 +1,10 @@
 package de.chkal.rsmvc.core;
 
-public class Model extends BasicModel<Model> {
+public class Model extends BasicModel<Model> implements Viewable {
 
-    // this class just exists to get rid of the type parameter
+    @Override
+    public String getViewName() {
+        return null;
+    }
 
 }

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BasicModel<T extends BasicModel<T>>
-        implements WritableModel<T>, ReadableModel, Viewable {
+        implements WritableModel<T>, ReadableModel {
 
-    protected final Map<String, Object> model = new HashMap<>();
+    private final Map<String, Object> model = new HashMap<>();
 
     public BasicModel() {
     }
@@ -26,11 +26,6 @@ public abstract class BasicModel<T extends BasicModel<T>>
     public T with(ReadableModel m) {
         model.putAll(m.getModel());
         return (T) this;
-    }
-
-    @Override
-    public String getViewName() {
-        return null;
     }
 
     @Override
